@@ -1,0 +1,7 @@
+---
+output: 'generated_bindings.dart'
+name: 'AppCoreAPI'
+description: 'AppCore APIs'
+headers:
+  entry-points:
+    - 'app-core/api/app-core-api.h'
