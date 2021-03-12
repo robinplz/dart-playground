@@ -1,6 +1,8 @@
 #ifndef _APP_CORE_API_H_
 #define _APP_CORE_API_H_
 
+#include "types.h"
+
 #ifdef __cplusplus
     #define EXTERN_C_BEGIN extern "C" {
     #define EXTERN_C_END }
@@ -12,6 +14,8 @@
 EXTERN_C_BEGIN
     void launchApp();
     void shutApp();
+    unsigned char* getAppData();
+    AppMeta getAppMeta();
 EXTERN_C_END
 
 #endif

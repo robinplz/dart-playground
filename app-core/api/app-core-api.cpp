@@ -10,3 +10,11 @@ void launchApp() {
 void shutApp() {
     app.shut();
 }
+
+unsigned char* getAppData() {
+    return app.getData();
+}
+
+AppMeta getAppMeta() {
+    return app.getMeta();
+}
