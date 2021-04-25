@@ -1,5 +1,7 @@
 app-core/build
+app-core/bin
 libapp-core.dylib
-generated_bindings.dart
+app-core.dll
+
 .packages
 .dart_tool/

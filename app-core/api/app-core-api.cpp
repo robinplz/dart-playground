@@ -1,5 +1,6 @@
 #include "app-core-api.h"
 #include "../app-core.hpp"
+#include <random>
 
 static AppCore app;
 
@@ -17,4 +18,11 @@ unsigned char* getAppData() {
 
 AppMeta getAppMeta() {
     return app.getMeta();
+}
+
+int generateRandomError(int* error) {
+    static int i = 100;
+    i++;
+    (*error) = i;
+    return i;
 }

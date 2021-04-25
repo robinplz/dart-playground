@@ -11,11 +11,18 @@
     #define EXTERN_C_END
 #endif
 
+#ifdef WIN32
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
 EXTERN_C_BEGIN
-    void launchApp();
-    void shutApp();
-    unsigned char* getAppData();
-    AppMeta getAppMeta();
+    EXPORT void launchApp();
+    EXPORT void shutApp();
+    EXPORT unsigned char* getAppData();
+    EXPORT AppMeta getAppMeta();
+    EXPORT int generateRandomError(int* error);
 EXTERN_C_END
 
 #endif

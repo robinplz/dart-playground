@@ -16,3 +16,7 @@ set(SOURCES app-core.cpp
             api/app-core-api.cpp)
 
 add_library(app-core SHARED ${SOURCES})
+
+install(TARGETS app-core 
+        DESTINATION "${CMAKE_SOURCE_DIR}/bin"
+        COMPONENT Runtime)
