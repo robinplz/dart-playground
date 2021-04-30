@@ -3,21 +3,15 @@ import 'dart:io' show Platform;
 import 'package:ffi/ffi.dart';
 import 'generated_bindings.dart';
 
-// typedef void_func = ffi.Void Function();
-// typedef Func = void Function();
+void onSignalA(ffi.Pointer<ffi.Void> data) {
+  final typedData = data.cast<SignalAData>();
+  final dataRef = typedData.ref;
+  print('onSignalA - data1=${dataRef.data1} data2=${dataRef.data2}');
+}
 
-class CError {
-  ffi.Pointer<ffi.Int32> _ptr;
-
-  ffi.Pointer<ffi.Int32> get pointer {
-    return _ptr;
-  }
-
-  int? get code {
-    return _ptr == ffi.nullptr ? null : _ptr.value;
-  }
-
-  CError() : _ptr = calloc<ffi.Int32>();
+void onSignalB(ffi.Pointer<ffi.Void> data) {
+  final typedData = data.cast<ffi.Int32>();
+  print('onSignalB - data=${typedData.value}');
 }
 
 void main() {
@@ -41,11 +35,14 @@ void main() {
   var data = api.getAppData();
   print(data.asTypedList(8));
 
-  var meta = api.getAppMeta();
-  printMeta(meta);
+  final metaResult = api.getAppMeta();
+  print('getAppMeta status code: ${metaResult.status_code}');
+  printMeta(metaResult.data);
 
   api.shutApp();
 
+  api.setObserver(Signal.kSignalA, ffi.Pointer.fromFunction(onSignalA));
+  api.setObserver(Signal.kSignalB, ffi.Pointer.fromFunction(onSignalB));
   for (var i = 0; i < 10; i++) {
     var error = calloc<ffi.Int32>();
     final result = api.generateRandomError(error);

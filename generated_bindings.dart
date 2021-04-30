@@ -44,7 +44,7 @@ class AppCoreAPI {
   late final _dart_getAppData _getAppData =
       _getAppData_ptr.asFunction<_dart_getAppData>();
 
-  AppMeta getAppMeta() {
+  AppMetaResult getAppMeta() {
     return _getAppMeta();
   }
 
@@ -66,6 +66,21 @@ class AppCoreAPI {
           'generateRandomError');
   late final _dart_generateRandomError _generateRandomError =
       _generateRandomError_ptr.asFunction<_dart_generateRandomError>();
+
+  void setObserver(
+    int sig,
+    ffi.Pointer<ffi.NativeFunction<CALLBACK>> func,
+  ) {
+    return _setObserver(
+      sig,
+      func,
+    );
+  }
+
+  late final _setObserver_ptr =
+      _lookup<ffi.NativeFunction<_c_setObserver>>('setObserver');
+  late final _dart_setObserver _setObserver =
+      _setObserver_ptr.asFunction<_dart_setObserver>();
 }
 
 class AppMeta extends ffi.Struct {
@@ -76,6 +91,26 @@ class AppMeta extends ffi.Struct {
 
   @ffi.Int32()
   external int minorVersion;
+}
+
+class AppMetaResult extends ffi.Struct {
+  @ffi.Int32()
+  external int status_code;
+
+  external AppMeta data;
+}
+
+abstract class Signal {
+  static const int kSignalA = 1;
+  static const int kSignalB = 2;
+}
+
+class SignalAData extends ffi.Struct {
+  @ffi.Int32()
+  external int data1;
+
+  @ffi.Int32()
+  external int data2;
 }
 
 typedef _c_launchApp = ffi.Void Function();
@@ -90,9 +125,9 @@ typedef _c_getAppData = ffi.Pointer<ffi.Uint8> Function();
 
 typedef _dart_getAppData = ffi.Pointer<ffi.Uint8> Function();
 
-typedef _c_getAppMeta = AppMeta Function();
+typedef _c_getAppMeta = AppMetaResult Function();
 
-typedef _dart_getAppMeta = AppMeta Function();
+typedef _dart_getAppMeta = AppMetaResult Function();
 
 typedef _c_generateRandomError = ffi.Int32 Function(
   ffi.Pointer<ffi.Int32> error,
@@ -100,4 +135,18 @@ typedef _c_generateRandomError = ffi.Int32 Function(
 
 typedef _dart_generateRandomError = int Function(
   ffi.Pointer<ffi.Int32> error,
+);
+
+typedef CALLBACK = ffi.Void Function(
+  ffi.Pointer<ffi.Void>,
+);
+
+typedef _c_setObserver = ffi.Void Function(
+  ffi.Int32 sig,
+  ffi.Pointer<ffi.NativeFunction<CALLBACK>> func,
+);
+
+typedef _dart_setObserver = void Function(
+  int sig,
+  ffi.Pointer<ffi.NativeFunction<CALLBACK>> func,
 );

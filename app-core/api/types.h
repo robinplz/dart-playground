@@ -7,4 +7,9 @@ typedef struct {
     int minorVersion;
 } AppMeta;
 
+typedef struct {
+    int status_code;
+    AppMeta data;
+} AppMetaResult;
+
 #endif
